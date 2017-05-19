@@ -1,33 +1,30 @@
 %token <int> NUMBER
-%token PLUS
-%token MINUS
-%token TIMES
-%token DIVIDE
-%token LPAREN
-%token RPAREN
+%token PLUS MINUS TIMES DIVIDE
+%token LPAREN RPAREN
 %token EOF
 
-%start program
-%type <int> program
+%start <int> program
 
 %%
+
+op:
+  | PLUS
+    { (+) }
+  | MINUS
+    { (-) }
+  | TIMES
+    { ( * ) }
+  | DIVIDE
+    { (/) }
 
 expression:
   | n = NUMBER
     { n }
-  | TIMES x = expression y = expression
-    { x * y }
-  | DIVIDE x = expression y = expression
-    { x / y }
-  | PLUS x = expression y = expression
-    { x + y }
-  | MINUS x = expression y = expression
-    { x - y }
+  | o = op x = expression y = expression
+    { o x y }
   | LPAREN e = expression RPAREN
     { e }
-;
 
 program:
   e = expression EOF
   { e }
-;
