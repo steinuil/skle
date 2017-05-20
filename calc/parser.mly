@@ -17,14 +17,18 @@ op:
   | DIVIDE
     { (/) }
 
-expression:
+expr:
   | n = NUMBER
     { n }
-  | o = op x = expression y = expression
-    { o x y }
   | LPAREN e = expression RPAREN
     { e }
 
+expression:
+  | n = NUMBER
+    { n }
+  | o = op x = expr xs = expr+
+    { List.fold_right o xs x }
+
 program:
-  e = expression EOF
+e = expression EOF
   { e }

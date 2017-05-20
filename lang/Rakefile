@@ -1,0 +1,31 @@
+task :default => 'test'
+
+rule /\.mli?$/ => '.mly' do |t|
+  sh 'menhir', '--infer', t.source
+end
+
+rule /\.ml$/ => '.mll' do |t|
+  sh 'ocamllex', '-q', t.source
+end
+
+rule /\.cmi$/ => '.mli' do |t|
+  sh 'ocamlopt', '-c', t.source
+end
+
+rule /\.cm[ix]$/ => '.ml' do |t|
+  sh 'ocamlopt', '-c', t.source
+end
+
+file 'parser.cmi' => ['parser.mli', 'syntax.cmi']
+
+file 'parser.cmx' => ['parser.ml', 'parser.cmi']
+
+file 'lexer.cmx' => ['lexer.ml', 'parser.cmi', 'syntax.cmi']
+
+file 'test' => ['syntax.cmx', 'parser.cmx', 'lexer.cmx', 'test.ml'] do |t|
+  sh 'ocamlopt', '-o', t.name, *t.sources
+end
+
+task :clean do
+  sh 'rm -f *.cm* *.o *.native lexer.ml parser.ml parser.mli test'
+end

@@ -1,1 +1,4 @@
-I make script, I poast on github website
+Various experiments with OCaml and Menhir.
+
+## `calc`
+Very simple calculator language with prefix notation.
