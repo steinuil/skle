@@ -27,7 +27,7 @@ expression:
   | n = NUMBER
     { n }
   | o = op x = expr xs = expr+
-    { List.fold_right o xs x }
+    { List.fold_left o x xs }
 
 program:
 e = expression EOF
