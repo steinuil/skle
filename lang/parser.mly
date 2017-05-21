@@ -21,8 +21,8 @@ program:
   { d :: r }
 
 declaration:
-PROC name = IDENT IS body = separated_nonempty_list(COMMA, expression) PERIOD
-  { Syntax.Def (name, body) }
+PROC name = IDENT args = IDENT* IS body = separated_nonempty_list(COMMA, expression) PERIOD
+  { Syntax.Def (name, args, body) }
 
 expression:
 proc = IDENT; args = IDENT*

@@ -1,2 +1,4 @@
-proc test is
-  a e,b,c.
+proc test arg-one arg-two is
+  puts a e,
+  puts b,
+  puts.

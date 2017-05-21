@@ -3,10 +3,10 @@ let string_of_expr = function
     name ^ "(" ^ (String.concat ", " args) ^ ")"
 
 let string_of_decl = function
-  Syntax.Def (name, body) ->
-    "def " ^ name ^ "(" ^ "" ^ ")\n  "
+  Syntax.Def (name, args, body) ->
+    "def " ^ name
+    ^ "(" ^ (String.concat ", " args) ^ ")\n  "
     ^ (String.concat "\n  " (List.map string_of_expr body)) ^ "\nend"
-    (*^ (String.concat "\n\t" (List.map string_of_expr body)) ^ "\n"*)
 
 let slurp () =
   let rec loop out =

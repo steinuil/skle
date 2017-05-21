@@ -4,4 +4,4 @@ type expr =
     Proc of ident * ident list
 
 type declaration =
-    Def of ident * expr list
+    Def of ident * ident list * expr list
