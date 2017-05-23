@@ -1,4 +1,10 @@
-task :default => 'test'
+task :default => 'print.native'
+
+unless ENV['CAML_LD_LIBRARY_PATH']
+  `opam env --sexp`.gsub(/[ ]+\(/, '').gsub(/[\)\(]$/, '').split(?\n).reject { |x| x.strip.empty? }.map(&:split).each do |var, val|
+    ENV[eval var] = eval val
+  end
+end
 
 rule /\.mli?$/ => '.mly' do |t|
   sh 'menhir', '--infer', t.source
@@ -16,16 +22,18 @@ rule /\.cm[ix]$/ => '.ml' do |t|
   sh 'ocamlopt', '-c', t.source
 end
 
+rule /\.native$/ => '.ml' do |t|
+  sh 'ocamlopt', '-o', t.name, *t.prerequisites
+end
+
 file 'parser.cmi' => ['parser.mli', 'syntax.cmi']
 
 file 'parser.cmx' => ['parser.ml', 'parser.cmi']
 
 file 'lexer.cmx' => ['lexer.ml', 'parser.cmi', 'syntax.cmi']
 
-file 'test' => ['syntax.cmx', 'parser.cmx', 'lexer.cmx', 'test.ml'] do |t|
-  sh 'ocamlopt', '-o', t.name, *t.sources
-end
+file 'print.native' => ['syntax.cmx', 'parser.cmx', 'lexer.cmx', 'print.ml']
 
 task :clean do
-  sh 'rm -f *.cm* *.o *.native lexer.ml parser.ml parser.mli test'
+  sh 'rm -f *.cm* *.o *.native lexer.ml parser.ml parser.mli'
 end

@@ -1,7 +1,7 @@
 type ident = string
+type type_ = string
 
 type expr =
-    Proc of ident * ident list
+| Call of ident * ident list
 
-type declaration =
-    Def of ident * ident list * expr list
+type declaration = (ident * type_) * (ident * type_) list * expr list

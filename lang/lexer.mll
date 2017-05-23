@@ -7,10 +7,14 @@ rule read = parse
   { PROC }
 | "is"
   { IS }
+| "of"
+  { OF }
 | ','
   { COMMA }
 | '.'
   { PERIOD }
+| ':'
+  { COLON }
 | ['a'-'z'] ['a'-'z' '-']*
   { IDENT (Lexing.lexeme lexbuf) }
 | eof

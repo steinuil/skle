@@ -1,4 +1,23 @@
-proc test arg-one arg-two is
-  puts a e,
-  puts b,
-  puts.
+proc test is test-one.
+
+proc test is
+  test-one.
+
+proc test is
+  puts test-one.
+
+proc test is
+  puts test-one test-two.
+
+proc test of arg-one is
+  puts arg-one.
+
+proc test:int is
+  test-one.
+
+proc test of arg-one : string, arg-two is
+  puts test-one test-two,
+  puts test-two test-one.
+
+proc main : int is
+  return zero.
